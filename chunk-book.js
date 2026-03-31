@@ -70,10 +70,12 @@ async function main() {
     const chapterText = lines.slice(startLine, endLine).join("\n");
 
     // Split into paragraphs (double newline separated)
+    // Strip Gutenberg separator lines (rows of dashes)
     const paragraphs = chapterText
       .split(/\n\s*\n/)
       .map((p) => p.replace(/\r?\n/g, " ").replace(/\s+/g, " ").trim())
-      .filter((p) => p.length > 0);
+      .map((p) => p.replace(/^-{3,}\s*/, "").replace(/\s*-{3,}$/, "").trim())
+      .filter((p) => p.length > 0 && !/^-+$/.test(p));
 
     // Group paragraphs into passages
     let buffer = [];

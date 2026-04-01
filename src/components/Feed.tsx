@@ -4,7 +4,9 @@ import { useRef, useEffect, useCallback, useMemo } from "react";
 import bookData from "@/data/book.json";
 import { PassageCard } from "./PassageCard";
 import { ChapterDivider } from "./ChapterDivider";
+import { SplashCard } from "./SplashCard";
 import { SessionSummary } from "./SessionSummary";
+import Image from "next/image";
 import { useReadingPosition } from "@/hooks/useReadingPosition";
 import { useHighlights } from "@/hooks/useHighlights";
 import { useSessionTimer } from "@/hooks/useSessionTimer";
@@ -119,8 +121,24 @@ export function Feed() {
         ref={containerRef}
         className="h-screen overflow-y-scroll snap-y snap-mandatory hide-scrollbar"
       >
+        {/* Splash card */}
+        <div key="splash" data-index={0}>
+          <SplashCard />
+        </div>
+
+        {/* Wordmark */}
+        <div key="wordmark" data-index={1} className="h-screen w-full snap-start snap-always flex items-center justify-center">
+          <Image
+            src="/scroll-wordmark.svg"
+            alt="SCROLL"
+            width={100}
+            height={24}
+            className="opacity-30"
+          />
+        </div>
+
         {feedItems.map((item, index) => (
-          <div key={item.key} data-index={index}>
+          <div key={item.key} data-index={index + 2}>
             {item.type === "chapter" ? (
               <ChapterDivider chapter={item.chapter} />
             ) : (

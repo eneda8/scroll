@@ -1,0 +1,8 @@
+<svg width="300" height="60" viewBox="0 0 300 60" xmlns="http://www.w3.org/2000/svg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&amp;display=swap');
+.logo-text { font-family: 'Lora', serif; letter-spacing: 0.18em; }
+</style>
+<text x="150" y="38" text-anchor="middle" class="logo-text" fill="#f0ece4" font-size="42" font-weight="600">Scroll</text>
+<rect x="78" y="48" width="144" height="1.5" rx="1" fill="#f0ece4" opacity="0.3"/>
+</svg>

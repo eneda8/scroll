@@ -5,5 +5,5 @@
 </style>
 <text x="200" y="60" text-anchor="middle" class="logo-text" fill="#f0ece4" font-size="48" font-weight="600">Scroll</text>
 <rect x="118" y="72" width="164" height="1.5" rx="1" fill="#f0ece4" opacity="0.3"/>
-<text x="200" y="105" text-anchor="middle" class="logo-text" fill="#f0ece4" font-size="12" font-weight="400" style="letter-spacing:0.25em">read more. try less.</text>
+<text x="200" y="105" text-anchor="middle" class="logo-text" fill="#f0ece4" font-size="18" font-weight="400" style="letter-spacing:0.25em">read more. try less.</text>
 </svg>

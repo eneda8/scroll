@@ -11,7 +11,7 @@ export function SplashCard() {
         priority
         className="brightness-0 invert"
       />
-      <p className="text-foreground text-lg tracking-wide text-center font-serif italic">
+      <p className="text-muted text-sm tracking-wide text-center font-serif italic">
         Doom-scroll your way through great literature.
       </p>
     </div>

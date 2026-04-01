@@ -1,0 +1,58 @@
+[
+  {
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "slug": "gatsby",
+    "file": "gatsby.json",
+    "chapters": 9,
+    "passages": 1180
+  },
+  {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "slug": "pride-and-prejudice",
+    "file": "pride-and-prejudice.json",
+    "chapters": 61,
+    "passages": 3025
+  },
+  {
+    "title": "A Tale of Two Cities",
+    "author": "Charles Dickens",
+    "slug": "a-tale-of-two-cities",
+    "file": "a-tale-of-two-cities.json",
+    "chapters": 24,
+    "passages": 3284
+  },
+  {
+    "title": "Moby Dick",
+    "author": "Herman Melville",
+    "slug": "moby-dick",
+    "file": "moby-dick.json",
+    "chapters": 135,
+    "passages": 4819
+  },
+  {
+    "title": "Frankenstein",
+    "author": "Mary Shelley",
+    "slug": "frankenstein",
+    "file": "frankenstein.json",
+    "chapters": 24,
+    "passages": 1654
+  },
+  {
+    "title": "The Picture of Dorian Gray",
+    "author": "Oscar Wilde",
+    "slug": "dorian-gray",
+    "file": "dorian-gray.json",
+    "chapters": 20,
+    "passages": 1850
+  },
+  {
+    "title": "The Confessions of St. Augustine",
+    "author": "St. Augustine",
+    "slug": "confessions",
+    "file": "confessions.json",
+    "chapters": 13,
+    "passages": 2344
+  }
+]

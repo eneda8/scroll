@@ -61,7 +61,7 @@ export default function Home() {
 
   if (state === "pick-book") {
     return (
-      <main className="h-screen overflow-hidden">
+      <main className="min-h-screen">
         <BookPicker
           onSelectBook={handleSelectBook}
           onSelectBible={() => setState("pick-bible")}

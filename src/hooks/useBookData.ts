@@ -2,9 +2,23 @@
 
 import { useState, useEffect } from "react";
 import type { BookData } from "@/types/book";
-import gatsbyData from "@/data/book.json";
 
 const cache = new Map<string, BookData>();
+
+function fetchAndCache(slug: string, url: string, setData: (d: BookData) => void, setLoading: (l: boolean) => void) {
+  if (cache.has(slug)) {
+    setData(cache.get(slug)!);
+    return;
+  }
+  setLoading(true);
+  fetch(url)
+    .then((res) => res.json())
+    .then((bookData: BookData) => {
+      cache.set(slug, bookData);
+      setData(bookData);
+    })
+    .finally(() => setLoading(false));
+}
 
 export function useBookData(slug: string | null) {
   const [data, setData] = useState<BookData | null>(null);
@@ -16,11 +30,6 @@ export function useBookData(slug: string | null) {
       return;
     }
 
-    if (slug === "gatsby") {
-      setData(gatsbyData as BookData);
-      return;
-    }
-
     if (cache.has(slug)) {
       setData(cache.get(slug)!);
       return;
@@ -28,14 +37,10 @@ export function useBookData(slug: string | null) {
 
     if (slug.startsWith("bible-")) {
       const fileName = slug.replace("bible-", "") + ".json";
-      setLoading(true);
-      fetch(`/data/bible/${fileName}`)
-        .then((res) => res.json())
-        .then((bookData: BookData) => {
-          cache.set(slug, bookData);
-          setData(bookData);
-        })
-        .finally(() => setLoading(false));
+      fetchAndCache(slug, `/data/bible/${fileName}`, setData, setLoading);
+    } else {
+      // Literature books (gatsby, pride-and-prejudice, etc.)
+      fetchAndCache(slug, `/data/literature/${slug}.json`, setData, setLoading);
     }
   }, [slug]);
 

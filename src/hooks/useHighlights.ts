@@ -2,32 +2,36 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-const STORAGE_KEY = "scroll-highlights";
-
-export function useHighlights() {
+export function useHighlights(bookSlug: string) {
   const [highlights, setHighlights] = useState<Set<number>>(new Set());
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      setHighlights(new Set(JSON.parse(saved)));
-    }
+    setLoaded(false);
+    const key = `scroll-highlights:${bookSlug}`;
+    const saved = localStorage.getItem(key);
+    setHighlights(saved ? new Set(JSON.parse(saved)) : new Set());
     setLoaded(true);
-  }, []);
+  }, [bookSlug]);
 
-  const toggleHighlight = useCallback((id: number) => {
-    setHighlights((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...next]));
-      return next;
-    });
-  }, []);
+  const toggleHighlight = useCallback(
+    (id: number) => {
+      setHighlights((prev) => {
+        const next = new Set(prev);
+        if (next.has(id)) {
+          next.delete(id);
+        } else {
+          next.add(id);
+        }
+        localStorage.setItem(
+          `scroll-highlights:${bookSlug}`,
+          JSON.stringify([...next])
+        );
+        return next;
+      });
+    },
+    [bookSlug]
+  );
 
   const isHighlighted = useCallback(
     (id: number) => highlights.has(id),

@@ -2,24 +2,25 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-const STORAGE_KEY = "scroll-reading-position";
-
-export function useReadingPosition() {
+export function useReadingPosition(bookSlug: string) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved !== null) {
-      setCurrentIndex(parseInt(saved, 10));
-    }
+    setLoaded(false);
+    const key = `scroll-position:${bookSlug}`;
+    const saved = localStorage.getItem(key);
+    setCurrentIndex(saved !== null ? parseInt(saved, 10) : 0);
     setLoaded(true);
-  }, []);
+  }, [bookSlug]);
 
-  const savePosition = useCallback((index: number) => {
-    setCurrentIndex(index);
-    localStorage.setItem(STORAGE_KEY, index.toString());
-  }, []);
+  const savePosition = useCallback(
+    (index: number) => {
+      setCurrentIndex(index);
+      localStorage.setItem(`scroll-position:${bookSlug}`, index.toString());
+    },
+    [bookSlug]
+  );
 
   return { currentIndex, savePosition, loaded };
 }

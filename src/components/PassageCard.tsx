@@ -7,6 +7,7 @@ interface PassageCardProps {
   text: string;
   title: string;
   author: string;
+  reference?: string;
   isHighlighted: boolean;
   onToggleHighlight: () => void;
 }
@@ -15,6 +16,7 @@ export function PassageCard({
   text,
   title,
   author,
+  reference,
   isHighlighted,
   onToggleHighlight,
 }: PassageCardProps) {
@@ -30,9 +32,13 @@ export function PassageCard({
           isHighlighted ? "border-l-4 border-gold" : ""
         }`}
       >
-        <p className="text-xs tracking-wide text-muted mb-4 uppercase">
+        <p className="text-xs tracking-wide text-muted mb-1 uppercase">
           {title} &middot; {author}
         </p>
+        {reference && (
+          <p className="text-xs text-muted/60 mb-4">{reference}</p>
+        )}
+        {!reference && <div className="mb-3" />}
         <p className="font-serif text-base md:text-lg leading-relaxed text-foreground">
           {text}
         </p>

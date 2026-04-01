@@ -1,34 +1,54 @@
 "use client";
 
 import { useRef, useEffect, useCallback, useMemo } from "react";
-import bookData from "@/data/book.json";
+import type { BookData, Passage } from "@/types/book";
 import { PassageCard } from "./PassageCard";
 import { ChapterDivider } from "./ChapterDivider";
-import { SplashCard } from "./SplashCard";
 import { SessionSummary } from "./SessionSummary";
-import Image from "next/image";
 import { useReadingPosition } from "@/hooks/useReadingPosition";
 import { useHighlights } from "@/hooks/useHighlights";
 import { useSessionTimer } from "@/hooks/useSessionTimer";
 
 type FeedItem =
-  | { type: "chapter"; chapter: number; key: string }
-  | { type: "passage"; id: number; chapter: number; text: string; key: string };
+  | { type: "chapter"; chapter: number; label: string; key: string }
+  | {
+      type: "passage";
+      id: number;
+      chapter: number;
+      text: string;
+      reference?: string;
+      key: string;
+    };
 
-export function Feed() {
+interface FeedProps {
+  bookData: BookData;
+  onChangeBook: () => void;
+}
+
+export function Feed({ bookData, onChangeBook }: FeedProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { currentIndex, savePosition, loaded: posLoaded } = useReadingPosition();
-  const { isHighlighted, toggleHighlight, loaded: hlLoaded } = useHighlights();
+  const { currentIndex, savePosition, loaded: posLoaded } = useReadingPosition(
+    bookData.slug
+  );
+  const { isHighlighted, toggleHighlight, loaded: hlLoaded } = useHighlights(
+    bookData.slug
+  );
+
+  const isBible = bookData.slug.startsWith("bible-");
 
   // Build feed items: insert chapter dividers before first passage of each chapter
   const feedItems = useMemo<FeedItem[]>(() => {
     const items: FeedItem[] = [];
     let lastChapter = 0;
-    for (const passage of bookData.passages) {
+    for (const passage of bookData.passages as Passage[]) {
       if (passage.chapter !== lastChapter) {
+        const label = isBible
+          ? `${bookData.title} ${passage.chapter}`
+          : `Chapter ${passage.chapter}`;
         items.push({
           type: "chapter",
           chapter: passage.chapter,
+          label,
           key: `ch-${passage.chapter}`,
         });
         lastChapter = passage.chapter;
@@ -38,11 +58,12 @@ export function Feed() {
         id: passage.id,
         chapter: passage.chapter,
         text: passage.text,
+        reference: passage.reference,
         key: `p-${passage.id}`,
       });
     }
     return items;
-  }, []);
+  }, [bookData.passages, bookData.title, isBible]);
 
   // Count words read up to currentIndex
   const wordsRead = useMemo(() => {
@@ -56,8 +77,13 @@ export function Feed() {
     return count;
   }, [currentIndex, feedItems]);
 
-  const { showSummary, sessionMinutes, pagesRead, resetIdleTimer, dismissSummary } =
-    useSessionTimer(wordsRead);
+  const {
+    showSummary,
+    sessionMinutes,
+    pagesRead,
+    resetIdleTimer,
+    dismissSummary,
+  } = useSessionTimer(wordsRead);
 
   // Scroll to saved position on load
   useEffect(() => {
@@ -67,7 +93,6 @@ export function Feed() {
         target.scrollIntoView();
       }
     }
-    // Only run on initial load
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posLoaded]);
 
@@ -117,36 +142,28 @@ export function Feed() {
 
   return (
     <>
+      <button
+        onClick={onChangeBook}
+        className="fixed top-4 left-4 z-40 text-muted hover:text-foreground transition-colors text-xs uppercase tracking-wide max-w-[200px] truncate"
+      >
+        {bookData.title}
+      </button>
+
       <div
         ref={containerRef}
         className="h-screen overflow-y-scroll snap-y snap-mandatory hide-scrollbar"
       >
-        {/* Splash card */}
-        <div key="splash" data-index={0}>
-          <SplashCard />
-        </div>
-
-        {/* Wordmark */}
-        <div key="wordmark" data-index={1} className="h-screen w-full snap-start snap-always flex items-center justify-center">
-          <Image
-            src="/scroll-wordmark.svg"
-            alt="SCROLL"
-            width={180}
-            height={44}
-            className="brightness-0 invert opacity-80"
-          />
-        </div>
-
         {feedItems.map((item, index) => (
-          <div key={item.key} data-index={index + 2}>
+          <div key={item.key} data-index={index}>
             {item.type === "chapter" ? (
-              <ChapterDivider chapter={item.chapter} />
+              <ChapterDivider label={item.label} />
             ) : (
               <PassageCard
                 id={item.id}
                 text={item.text}
                 title={bookData.title}
                 author={bookData.author}
+                reference={item.reference}
                 isHighlighted={isHighlighted(item.id)}
                 onToggleHighlight={() => toggleHighlight(item.id)}
               />

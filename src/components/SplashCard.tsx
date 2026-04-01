@@ -14,6 +14,9 @@ export function SplashCard() {
       <p className="text-muted text-sm tracking-wide text-center font-serif italic">
         Doom-scroll your way through great literature.
       </p>
+      <p className="text-muted/40 text-xs tracking-wide mt-8 animate-pulse">
+        tap to begin
+      </p>
     </div>
   );
 }

@@ -54,7 +54,7 @@ export function BibleBookPicker({ onSelectBook, onBack }: BibleBookPickerProps) 
           >
             <p className="font-serif text-sm text-foreground">{book.name}</p>
             <p className="text-xs text-muted mt-1">
-              {book.chapters} {book.chapters === 1 ? "ch" : "chs"}
+              {book.chapters} {book.chapters === 1 ? "chapter" : "chapters"}
             </p>
           </button>
         ))}
@@ -72,7 +72,7 @@ export function BibleBookPicker({ onSelectBook, onBack }: BibleBookPickerProps) 
           >
             <p className="font-serif text-sm text-foreground">{book.name}</p>
             <p className="text-xs text-muted mt-1">
-              {book.chapters} {book.chapters === 1 ? "ch" : "chs"}
+              {book.chapters} {book.chapters === 1 ? "chapter" : "chapters"}
             </p>
           </button>
         ))}

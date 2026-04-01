@@ -92,7 +92,7 @@ async function main() {
     for (const para of paragraphs) {
       const wordCount = para.split(/\s+/).length;
 
-      const MAX_WORDS = 120;
+      const MAX_WORDS = 60;
 
       // If a single paragraph exceeds the limit, split at sentence breaks
       if (wordCount > MAX_WORDS) {

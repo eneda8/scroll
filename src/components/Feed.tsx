@@ -160,6 +160,7 @@ export function Feed({ bookData, onChangeBook }: FeedProps) {
             ) : (
               <PassageCard
                 id={item.id}
+                chapter={item.chapter}
                 text={item.text}
                 title={bookData.title}
                 author={bookData.author}

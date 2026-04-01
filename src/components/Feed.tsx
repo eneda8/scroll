@@ -131,9 +131,9 @@ export function Feed() {
           <Image
             src="/scroll-wordmark.svg"
             alt="SCROLL"
-            width={100}
-            height={24}
-            className="opacity-30"
+            width={180}
+            height={44}
+            className="brightness-0 invert opacity-80"
           />
         </div>
 

@@ -99,6 +99,17 @@ export async function generateShareCard(
   });
 }
 
+export async function copyCardToClipboard(blob: Blob): Promise<boolean> {
+  try {
+    await navigator.clipboard.write([
+      new ClipboardItem({ "image/png": blob }),
+    ]);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function shareOrDownload(blob: Blob) {
   const file = new File([blob], "scroll-highlight.png", { type: "image/png" });
 

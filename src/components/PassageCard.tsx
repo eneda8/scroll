@@ -6,6 +6,7 @@ import { ActionBar } from "./ActionBar";
 import {
   generateShareCard,
   shareOrDownload,
+  copyCardToClipboard,
 } from "@/lib/generateShareCard";
 
 interface PassageCardProps {
@@ -41,13 +42,19 @@ export function PassageCard({
     setShowActions(false);
   };
 
+  const getAttribution = () =>
+    reference ? `${reference} · ${author}` : `${title} · Chapter ${chapter}`;
+
   const handleShare = async () => {
     setShowActions(false);
-    const attribution = reference
-      ? `${reference} · ${author}`
-      : `${title} · Chapter ${chapter}`;
-    const blob = await generateShareCard(text, attribution);
+    const blob = await generateShareCard(text, getAttribution());
     await shareOrDownload(blob);
+  };
+
+  const handleCopy = async () => {
+    setShowActions(false);
+    const blob = await generateShareCard(text, getAttribution());
+    await copyCardToClipboard(blob);
   };
 
   return (
@@ -79,6 +86,7 @@ export function PassageCard({
         isHighlighted={isHighlighted}
         onHighlight={handleHighlight}
         onShare={handleShare}
+        onCopy={handleCopy}
         onDismiss={() => setShowActions(false)}
       />
     </>
